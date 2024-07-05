@@ -273,7 +273,7 @@ MonoBehaviour:
   _health: {fileID: 36612053}
   Slider: {fileID: 119304839}
   _step: 0.01
-  _delay: 0.01
+  _delay: 0.005
 --- !u!1 &208222140
 GameObject:
   m_ObjectHideFlags: 0
