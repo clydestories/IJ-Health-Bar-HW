@@ -2,37 +2,33 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SmoothedBarHealthDisplay : HealthDisplay
+public class SmoothedBarHealthDisplay : BarHealthDisplay
 {
-    [SerializeField] private Slider _slider; 
     [SerializeField] private float _step; 
     [SerializeField] private float _delay; 
 
     private Coroutine _coroutine;
 
+    protected override void SetValue(float value, float maxValue)
+    {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+
+        _coroutine = StartCoroutine(SmoothenValue(value / maxValue));
+    }
+
     private IEnumerator SmoothenValue(float value)
     {
         var wait = new WaitForSeconds(_delay);
 
-        while (_slider.value != value)
+        while (Slider.value != value)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, value, _step);
+            Slider.value = Mathf.MoveTowards(Slider.value, value, _step);
             yield return wait;
         }
 
         _coroutine = null;
-    }
-
-    protected override void SetValue(float value)
-    {
-        if (_coroutine == null)
-        {
-            _coroutine = StartCoroutine(SmoothenValue(value / Health.MaxValue));
-        }
-        else
-        {
-            StopCoroutine(_coroutine);
-            _coroutine = StartCoroutine(SmoothenValue(value / Health.MaxValue));
-        }
     }
 }

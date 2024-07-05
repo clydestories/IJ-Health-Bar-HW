@@ -5,8 +5,8 @@ public class TextHealthDisplay : HealthDisplay
 {
     [SerializeField] private TextMeshProUGUI _text;
 
-    protected override void SetValue(float value)
+    protected override void SetValue(float value, float maxValue)
     {
-        _text.text = value.ToString();
+        _text.text = $"{value}/{maxValue}";
     }
 }
